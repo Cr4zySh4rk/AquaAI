@@ -120,10 +120,10 @@ if(isset($_POST['apply'])) {
    $passwd = $_POST["Password"];
    $ch = $_POST["Channel"];
    if($ch != "Select" || $ch != "") {
-    shell_exec("nohup sudo bash /home/pi/Scripts/cngwifi.sh $ssid $passwd $ch");
+    shell_exec("nohup sudo bash /home/pi/Scripts/cngWifi.sh $ssid $passwd $ch");
    }
    else {
-    shell_exec("nohup sudo bash /home/pi/Scripts/cngwifi.sh $ssid $passwd 7");
+    shell_exec("nohup sudo bash /home/pi/Scripts/cngWifi.sh $ssid $passwd 7");
    }
   }
 if(isset($_POST['noapply'])) {
