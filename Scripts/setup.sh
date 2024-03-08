@@ -10,9 +10,51 @@ echo -e "\nUpdating package list..."
 apt-get update
 apt-get upgrade -y
 
+echo -e "\nSetting up FTP service..."
+apt-get install proftpd -y
+service proftpd start
+
+echo -e "\nSetting up Apache server and Web interface..."
+apt-get install apache2 -y
+apt-get install libapache2-mod-php -y
+apt-get install php8.2-fpm -y
+a2enconf php8.2-fpm
+a2enmod proxy_fcgi setenvif
+systemctl restart apache2
+
+echo -e "listen.owner = pi\nlisten.group = pi" >> /etc/php/8.2/fpm/php-fpm.conf
+mkdir /var/www/aquaai
+cp -R /home/pi/Web/* /var/www/aquaai
+apt-get install npm -y
+cd /var/www/aquaai
+npm install
+cd /home/pi/Scripts
+chown -R -f pi:pi /var/www/aquaai
+usermod -a -G pi www-data
+chmod +w /etc/sudoers
+echo -e "dietpi ALL=(ALL) NOPASSWD:ALL\nwww-data ALL=(ALL) NOPASSWD:ALL\n%dietpi ALL= (ALL:ALL) ALL" >> /etc/sudoers
+chmod -w /etc/sudoers
+cp /home/pi/Web/aquaai.conf /etc/apache2/sites-available/
+a2dissite 000-default.conf
+a2ensite aquaai.conf
+systemctl restart apache2
+
+echo -e "\nSetting up the AI image recognition..."
+apt-get install git pip -y
+pip3 install opencv-contrib-python --break-system-packages
+apt-get install python3-opencv -y
+pip3 install torch --break-system-packages
+pip3 install pyserial pandas requests PILLOW --break-system-packages
+pip3 install --no-cache "gitpython>=3.1.30" --break-system-packages
+pip3 install ultralytics --break-system-packages
+wget -O /home/pi/.cache/torch/hub/master.zip https://github.com/ultralytics/yolov5/zipball/master 
+echo -e "\nMaking AI image recognition run at boot"
+chmod 755 /home/pi/Scripts/launcher.sh
+(crontab -l 2>/dev/null; echo "@reboot sh /home/pi/Scripts/launcher.sh >/home/pi/logs/cronlog 2>&1")| crontab -
+
 echo -e "\nInstalling required packages..."
 apt install dhcpcd5 dnsmasq hostapd iptables -y
-sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
+DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
 
 echo -e "\nSetting up static IP..."
 echo -e "auto lo\niface lo inet loopback\n\nauto eth0\niface eth0 inet dhcp\n\nallow-hotplug wlan0\niface wlan0 inet static\n\taddress 192.168.4.1\n\tnetmask 255.255.255.0\n\tnetwork 192.168.4.0\n\tbroadcast 192.168.1.255" >> /etc/network/interfaces
