@@ -57,7 +57,7 @@ pip install -r requirements.txt --break-system-packages
 cd /home/pi
 echo -e "\nMaking AI image recognition run at boot"
 chmod 755 /home/pi/Scripts/launcher.sh
-(crontab -l 2>/dev/null; echo "@reboot sh /home/pi/Scripts/launcher.sh >/home/pi/logs/cronlog 2>&1")| crontab -
+sed -i 's|exit0|sudo bash /home/pi/Scripts/launcher.sh &\nexit0|g' /etc/rc.local
 
 echo -e "\nMaking all scripts executable in Scripts..."
 chmod +x /home/pi/Scripts/*
