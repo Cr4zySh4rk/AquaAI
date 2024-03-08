@@ -3,6 +3,10 @@ AI-based image recognition and soil parameter monitoring to precisely determine 
 
 ## Installation instructions
 
+### Prerequisites:
+[1] Raspberry Pi flashed with latest Raspberry Pi OS Lite (64bit) </br>
+[2] git must be installed, if not run "sudo apt-get install git -y"</br>
+
 ### [1] Clone the repo into /home/pi
 ``` bash
 git clone https://github.com/Cr4zySh4rk/AquaAI.git
