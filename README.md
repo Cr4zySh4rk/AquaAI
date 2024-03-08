@@ -15,6 +15,7 @@ git clone https://github.com/Cr4zySh4rk/AquaAI.git
 ### [2] Move all files from AquaAI into /home/pi
 ``` bash
 mv /home/pi/AquaAI/* /home/pi
+rm -rf AquaAI
 ```
 ### [3] Make setup script executable
 ``` bash
