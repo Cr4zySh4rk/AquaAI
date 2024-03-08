@@ -19,6 +19,7 @@ apt-get install tmux -y
 
 echo -e "\nSetting up Apache server and Web interface..."
 apt-get install apache2 -y
+apt-get install npm -y
 apt-get install libapache2-mod-php -y
 apt-get install php8.2-fpm -y
 a2enconf php8.2-fpm
@@ -57,7 +58,7 @@ pip install -r requirements.txt --break-system-packages
 cd /home/pi
 echo -e "\nMaking AI image recognition run at boot"
 chmod 755 /home/pi/Scripts/launcher.sh
-sed -i 's|exit0|sudo bash /home/pi/Scripts/launcher.sh &\nexit0|g' /etc/rc.local
+sed -i 's|fi|fi\nsudo bash /home/pi/Scripts/launcher.sh|g' /etc/rc.local
 
 echo -e "\nMaking all scripts executable in Scripts..."
 chmod +x /home/pi/Scripts/*
