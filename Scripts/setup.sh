@@ -52,6 +52,9 @@ echo -e "\nMaking AI image recognition run at boot"
 chmod 755 /home/pi/Scripts/launcher.sh
 (crontab -l 2>/dev/null; echo "@reboot sh /home/pi/Scripts/launcher.sh >/home/pi/logs/cronlog 2>&1")| crontab -
 
+echo -e "\nMaking all scripts executable in Scripts..."
+chmod +x /home/pi/Scripts/*
+
 echo -e "\nInstalling required packages..."
 apt install dhcpcd5 dnsmasq hostapd iptables -y
 DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
