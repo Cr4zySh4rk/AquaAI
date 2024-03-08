@@ -101,8 +101,8 @@
                             </select>
                         </div>
                         <div class="wifibutton">
-                            <input type="submit" class="button" value="Apply" name="apply" data-inline="true" onclick="confirm()">
-                            <input type="submit" class="button" value="Default" name="noapply" data-inline="true" onclick="confirm()">
+                            <input type="submit" class="button" value="Apply" name="apply" data-inline="true" onclick="alert('Please reboot system.')">
+                            <input type="submit" class="button" value="Default" name="noapply" data-inline="true" onclick="alert('Please reboot system.')">
                         </div>
                     </form>
                 </span>
