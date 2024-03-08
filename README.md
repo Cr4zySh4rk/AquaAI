@@ -30,3 +30,5 @@ sudo ./setup.sh
 This will take a while to finish, so go grab a cup of coffee :) </br>
 The Pi will reboot after this and hopefull everything should be setup! </br>
 It will host it's own access point with the default ssid: AquaAI and password: aquaai1234
+
+### [4] Access the wen interface by connecting to the AP &</br>typing 192.168.4.1
