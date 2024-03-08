@@ -46,8 +46,12 @@ apt-get install python3-opencv -y
 pip3 install torch --break-system-packages
 pip3 install pyserial pandas requests PILLOW --break-system-packages
 pip3 install --no-cache "gitpython>=3.1.30" --break-system-packages
-pip3 install ultralytics --break-system-packages
-wget -O /home/pi/.cache/torch/hub/master.zip https://github.com/ultralytics/yolov5/zipball/master 
+# pip3 install ultralytics --break-system-packages
+cd /home/pi
+git clone https://github.com/ultralytics/yolov5
+cd yolov5
+pip install -r requirements.txt --break-system-packages
+cd /home/pi
 echo -e "\nMaking AI image recognition run at boot"
 chmod 755 /home/pi/Scripts/launcher.sh
 (crontab -l 2>/dev/null; echo "@reboot sh /home/pi/Scripts/launcher.sh >/home/pi/logs/cronlog 2>&1")| crontab -

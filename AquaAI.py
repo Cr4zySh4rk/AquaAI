@@ -35,7 +35,7 @@ def cam():
         cam.release()
         cv2.destroyAllWindows()
 
-        model = torch.hub.load('ultralytics/yolov5', 'custom', path='./best.pt')
+        model = torch.hub.load('/home/pi/yolov5', 'custom', path='/home/pi/best.pt', source="local")
         img = "/home/pi/testimage.jpg"
         result = model(img)
 
