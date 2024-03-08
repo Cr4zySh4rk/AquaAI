@@ -13,6 +13,7 @@ apt-get upgrade -y
 echo -e "\nSetting up FTP service..."
 apt-get install proftpd -y
 service proftpd start
+sudo cp /etc/proftpd/proftpd.conf /etc/proftpd/proftpd.conf.orig
 
 echo -e "\nInstalling TMUX..."
 apt-get install tmux -y
@@ -89,6 +90,7 @@ rfkill unblock wifi
 echo -e "\nConfiguring the Wifi hotspot..."
 echo -e "country_code=IN\ninterface=wlan0\nssid=AquaAI\nhw_mode=g\nchannel=7\nmacaddr_acl=0\nauth_algs=1\nignore_broadcast_ssid=0\nwpa=2\nwpa_passphrase=aquaai1234\nwpa_key_mgmt=WPA-PSK\nwpa_pairwise=TKIP\nrsn_pairwise=CCMP" > /etc/hostapd/hostapd.conf
 sed -i 's|#DAEMON_CONF=""|DAEMON_CONF="/etc/hostapd/hostapd.conf"|g' /etc/default/hostapd
+sudo cp /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.orig
 
 systemctl disable dhcpcd.service
 systemctl stop dhcpcd.service
