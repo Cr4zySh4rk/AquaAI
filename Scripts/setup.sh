@@ -14,6 +14,9 @@ echo -e "\nSetting up FTP service..."
 apt-get install proftpd -y
 service proftpd start
 
+echo -e "\nInstalling TMUX..."
+apt-get install tmux -y
+
 echo -e "\nSetting up Apache server and Web interface..."
 apt-get install apache2 -y
 apt-get install libapache2-mod-php -y
