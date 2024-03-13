@@ -32,4 +32,4 @@ The Pi will reboot after this and hopefull everything should be setup! </br>
 It will host it's own access point with the default ssid: AquaAI and password: aquaai1234
 
 ### [4] Access the Web interface by connecting to the AP</br>
-Type 192.168.4.1 in your browser of choice :)
+Type 192.168.4.1 or aquaai.local in your browser of choice :)
