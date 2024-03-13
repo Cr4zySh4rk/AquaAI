@@ -16,7 +16,7 @@ const AnalyticData = () => {
 // eslint-disable-next-line
   const fetchDataAndUpdateCharts = async (csvFilePath) => {
     try {
-      const response = await axios.get('http://localhost:3001/analytics');
+      const response = await axios.get('http://aquaai.local/api/analytics');
       const jsonData = response.data;
       updateChart('soilChart', 'Soil_Moisture', 'Soil Moisture', 'rgba(105, 89, 62, 1)', jsonData);
       updateChart('temperatureChart', 'Temperature', 'Temperature', 'rgba(255, 99, 132, 1)', jsonData);
@@ -117,7 +117,7 @@ const AnalyticData = () => {
   
   const fetchUptime = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/uptime');
+      const response = await axios.get('http://aquaai.local/api/uptime');
       const uptimestr = response.data;
       setUptime(uptimestr);
     } catch (error) {
