@@ -20,6 +20,7 @@ apt-get install tmux -y
 
 echo -e "\nSetting up the Web interface..."
 apt-get install nodejs -y
+apt-get install npm -y
 npm config delete proxy
 npm install -g pm2
 npm install /home/pi/Web/Client
