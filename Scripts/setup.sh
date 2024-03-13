@@ -23,6 +23,11 @@ apt-get install npm nginx-y
 npm install -g pm2
 npm install /home/pi/Web/Client
 npm install /home/pi/Web/Server
+chown -R -f pi:pi /home/pi/Web
+usermod -a -G pi www-data
+chmod +w /etc/sudoers
+echo -e "pi ALL=(ALL) NOPASSWD:ALL\nwww-data ALL=(ALL) NOPASSWD:ALL\n%dietpi ALL= (ALL:ALL) ALL" >> /etc/sudoers
+chmod -w /etc/sudoers
 
 echo -e "\nSetting up the AI image recognition..."
 apt-get install git pip -y
