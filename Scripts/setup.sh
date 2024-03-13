@@ -19,7 +19,8 @@ echo -e "\nInstalling TMUX..."
 apt-get install tmux -y
 
 echo -e "\nSetting up the Web interface..."
-apt-get install npm -y
+apt-get install nodejs -y
+npm config delete proxy
 npm install -g pm2
 npm install /home/pi/Web/Client
 npm install /home/pi/Web/Server
