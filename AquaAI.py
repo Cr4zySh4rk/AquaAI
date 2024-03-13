@@ -62,9 +62,11 @@ def cam():
                 target = "60"
             print(target)  # Print the target value
             ser.write(target.encode())  # Send the target value to Arduino via serial communication
+            ser.reset_input_buffer()
         except Exception as e:
             target = "0"
             print("Error:", e)  # Print error message if object detection fails
+            ser.reset_input_buffer()
         time.sleep(10)  # Sleep for 10 seconds before capturing the next image
 
 # Define a function to read data from the serial port
@@ -76,6 +78,7 @@ def serial_read():
             file = open("/home/pi/data.csv", "a")
             file.write("\n" + line)
             file.close()
+            ser.reset_input_buffer()
         time.sleep(5)  # Sleep for 5 seconds before reading the next line
 
 # Create threads for camera and serial communication functions
