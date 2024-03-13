@@ -11,7 +11,7 @@ from ultralytics import YOLO  # Import YOLO object detection model from Ultralyt
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
 ser.reset_input_buffer()  # Reset input buffer of serial port
 
-target = ""  # Initialize target variable to store the detected object's category
+target = "0"  # Initialize target variable to store the detected object's category
 
 # Define a function to capture images from the camera
 def cam():
@@ -63,6 +63,7 @@ def cam():
             print(target)  # Print the target value
             ser.write(target.encode())  # Send the target value to Arduino via serial communication
         except Exception as e:
+            target = "0"
             print("Error:", e)  # Print error message if object detection fails
         time.sleep(10)  # Sleep for 10 seconds before capturing the next image
 
