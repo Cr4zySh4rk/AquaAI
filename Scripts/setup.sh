@@ -22,9 +22,12 @@ echo -e "\nSetting up the Web interface..."
 apt-get install npm -y
 sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
 sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
-npm install /home/pi/Web/Client
-npm install /home/pi/Web/Server
+cd /home/pi/Web/Client
+npm install
+cd /home/pi/Web/Server
+npm install
 npm install -g pm2
+cd /home/pi/Scripts
 chown -R -f pi:pi /home/pi/Web
 usermod -a -G pi www-data
 chmod +w /etc/sudoers
