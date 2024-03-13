@@ -25,7 +25,7 @@ const DashContent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://aquaai.local/api/analytics');
+        const response = await axios.get('http://aquaai.local:3001/analytics');
         const jsonData = response.data;
         setData(jsonData);
       } catch (error) {
@@ -39,7 +39,7 @@ const DashContent = () => {
   
   const fetchUptime = async () => {
     try {
-      const response = await axios.get('http://aquaai.local/api/uptime');
+      const response = await axios.get('http://aquaai.local:3001/uptime');
       const uptimestr = response.data;
       setUptime(uptimestr);
     } catch (error) {
@@ -77,7 +77,7 @@ const DashContent = () => {
 
   const fetchCropData = async (selectedCrop) => {
     try {
-      const response = await axios.get(`http://aquaai.local/api/crop-data/${selectedCrop}`);
+      const response = await axios.get(`http://aquaai.local:3001/crop-data/${selectedCrop}`);
       const cropData = response.data;
       setSelectedCropData(cropData);
     } catch (error) {

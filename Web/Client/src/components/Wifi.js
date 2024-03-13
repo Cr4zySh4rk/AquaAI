@@ -17,7 +17,7 @@ const Wifi = () => {
 
   const fetchUptime = async () => {
     try {
-      const response = await axios.get('http://aquaai.local/api/uptime');
+      const response = await axios.get('http://aquaai.local:3001/uptime');
       const uptimestr = response.data;
       setUptime(uptimestr);
     } catch (error) {
@@ -28,7 +28,7 @@ const Wifi = () => {
 
   const handleReset = async () => {
     try {
-      const resp = await axios.post('http://aquaai.local/api/wifi-settings/reset');
+      const resp = await axios.post('http://aquaai.local:3001/wifi-settings/reset');
       if(resp.data === "WiFiSet"){
         alert("Wifi Reset Successful! Please Reboot")
       }
@@ -39,7 +39,7 @@ const Wifi = () => {
 
   const handleSave = async () => {
     try {
-      const response = await axios.post('http://aquaai.local/api/wifi-settings', { ssid, password, channel });
+      const response = await axios.post('http://aquaai.local:3001/wifi-settings', { ssid, password, channel });
       if(response.data === "WiFiYes"){
         alert("Please Reboot")
       }
