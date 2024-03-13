@@ -20,12 +20,9 @@ apt-get install tmux -y
 
 echo -e "\nSetting up the Web interface..."
 apt-get install npm -y
-npm cache clear --force
-npm config set registry http://registry.npmjs.org
-npm install --global yarn
-yarn add /home/pi/Web/Client
-yarn add /home/pi/Web/Server
-yarn global add pm2
+npm install /home/pi/Web/Client
+npm install /home/pi/Web/Server
+npm install -g pm2
 chown -R -f pi:pi /home/pi/Web
 usermod -a -G pi www-data
 chmod +w /etc/sudoers
