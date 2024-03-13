@@ -70,7 +70,7 @@ void loop() {
   
   bool dispense = moisture_check(current_moist, target_moist); // Check if water dispensing is needed based on moisture levels
   long pump_time = 30; // Default pump run time is 30 seconds
-  if (dispense) {
+  if (dispense = = true) {
     start_pump(); // Start the pump if moisture level is below target
     delay(pump_time * 1000); // Wait for pump_time seconds
     water_ml = pump_time * 0.2083; // Calculate amount of water dispensed in milliliters
