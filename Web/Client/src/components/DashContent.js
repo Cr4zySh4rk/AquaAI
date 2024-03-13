@@ -163,7 +163,7 @@ const DashContent = () => {
               <h1>Water Dispensed Today: {totalWaterDispensed}mL</h1>
             </div>
             <div className='metric-cont'>
-              <h1>Current Soil Moisture: {currentSoilMoisture}bar</h1>
+              <h1>Current Soil Moisture: {currentSoilMoisture}%</h1>
             </div>
             <div className='metric-cont'>
               <h1>Current N, P, K Values: {currentNPK.nitrogen}, {currentNPK.phosphorus}, {currentNPK.potassium}</h1>
