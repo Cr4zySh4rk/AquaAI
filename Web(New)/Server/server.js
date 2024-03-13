@@ -79,7 +79,7 @@ app.post('/restart', (req, res) => {
 });
 
 app.get('/analytics', (req, res) => {
-  const csvFilePath = '/home/akshay/Downloads/data.csv';
+  const csvFilePath = '/home/pi/data.csv';
   const jsonData = [];
   fs.createReadStream(csvFilePath)
     .pipe(csv())
@@ -96,7 +96,7 @@ app.get('/analytics', (req, res) => {
 });
 
 app.get('/crop-data/:cropName', (req, res) => {
-  const csvFilePath = '/home/akshay/Downloads/plants.csv';
+  const csvFilePath = '/home/pi/plants.csv';
   const cropName = req.params.cropName;
   let jsonData = null;
 
