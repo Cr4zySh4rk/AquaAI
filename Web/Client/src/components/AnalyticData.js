@@ -18,13 +18,13 @@ const AnalyticData = () => {
     try {
       const response = await axios.get('http://aquaai.local:3001/analytics');
       const jsonData = response.data;
-      updateChart('soilChart', 'Soil_Moisture', 'Soil Moisture', 'rgba(105, 89, 62, 1)', jsonData);
-      updateChart('temperatureChart', 'Temperature', 'Temperature', 'rgba(255, 99, 132, 1)', jsonData);
-      updateChart('humidityChart', 'Humidity', 'Humidity', 'rgba(255, 99, 71, 1)', jsonData);
-      updateChart('nitrogenChart', 'Nitrogen', 'Nitrogen', 'rgba(30, 144, 255, 1)', jsonData);
-      updateChart('phosphorousChart', 'Phosphorus', 'Phosphorus', 'rgba(255, 215, 0, 1)', jsonData);
-      updateChart('potassiumChart', 'Potassium', 'Potassium', 'rgba(128, 0, 128, 1)', jsonData);
-      updateChart('waterDispensedChart', 'Water_Dispensed', 'Water Dispensed', 'rgba(75, 192, 192, 1)', jsonData);
+      updateChart('soilChart', 'Soil_Moisture', 'Soil Moisture', 'rgba(105, 89, 62, 1)', jsonData, "%");
+      updateChart('temperatureChart', 'Temperature', 'Temperature', 'rgba(255, 99, 132, 1)', jsonData, "°C");
+      updateChart('humidityChart', 'Humidity', 'Humidity', 'rgba(255, 99, 71, 1)', jsonData, "%");
+      updateChart('nitrogenChart', 'Nitrogen', 'Nitrogen', 'rgba(30, 144, 255, 1)', jsonData, "mg/kg");
+      updateChart('phosphorousChart', 'Phosphorus', 'Phosphorus', 'rgba(255, 215, 0, 1)', jsonData, "mg/kg");
+      updateChart('potassiumChart', 'Potassium', 'Potassium', 'rgba(128, 0, 128, 1)', jsonData, "mg/kg");
+      updateChart('waterDispensedChart', 'Water_Dispensed', 'Water Dispensed', 'rgba(75, 192, 192, 1)', jsonData, "mL");
     } catch (error) {
       console.error('Error fetching or processing data:', error);
     }
@@ -40,7 +40,7 @@ const AnalyticData = () => {
     return () => clearInterval(intervalId);
   }, [fetchDataAndUpdateCharts]);
 
-  const updateChart = (containerId, dataKey, yAxisLabel, color, jsonData) => {
+  const updateChart = (containerId, dataKey, yAxisLabel, color, jsonData, unit) => {
     let data = [];
     let labels = [];
     let startIndex = Math.max(0, jsonData.length - 15);
@@ -85,9 +85,26 @@ const AnalyticData = () => {
               grid: {
                 display: false,
               },
+              title: {
+                display: true,
+                text: 'Entries', // X-axis label
+                font: {
+                  size: 16,
+                },
+              },
             },
             y: {
+              title: {
+                display: true,
+                text: yAxisLabel, // Y-axis label
+                font: {
+                  size: 16,
+                },
+              },
               ticks: {
+                callback: function (value) {
+                  return `${value}${unit}`;
+                },
                 stepSize: 5,
                 min: 0,
                 max: 100,
