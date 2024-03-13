@@ -10,7 +10,7 @@ echo -e "\nThe raspberry pi will reboot after this!"
 echo -e "\nUpdating package list..."
 apt-get update
 apt-get upgrade -y
-apt-get remove --purge man-db #removing man-db to speed up installation of packages
+apt-get remove --purge man-db -y
 
 echo -e "\nSetting up FTP service..."
 apt-get install proftpd -y
