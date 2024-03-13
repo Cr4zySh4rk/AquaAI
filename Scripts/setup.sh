@@ -8,6 +8,7 @@ fi
 echo -e "\nThis script will install all the necessary packages and edit some system settings to setup a Wireless Access Point(AP) or Hotspot."
 echo -e "\nThe raspberry pi will reboot after this!"
 echo -e "\nUpdating package list..."
+sudo touch /var/lib/man-db/auto-update
 apt-get update
 apt-get upgrade -y
 
