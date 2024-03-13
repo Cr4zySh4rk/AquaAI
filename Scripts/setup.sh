@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exec &> setup_log.txt
+
 # Checking if script is run as root
 if [ "$(id -u)" -ne 0 ]; then
     echo "This script must be run as root. Please use sudo."
@@ -10,7 +12,7 @@ echo -e "\nThe raspberry pi will reboot after this!"
 echo -e "\nUpdating package list..."
 sudo touch /var/lib/man-db/auto-update
 apt-get update
-apt-get upgrade -y
+apt-get upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 
 echo -e "\nSetting up FTP service..."
 apt-get install proftpd -y
