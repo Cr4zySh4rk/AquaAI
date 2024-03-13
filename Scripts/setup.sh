@@ -19,7 +19,7 @@ echo -e "\nInstalling TMUX..."
 apt-get install tmux -y
 
 echo -e "\nSetting up the Web interface..."
-apt-get install npm nginx -y
+apt-get install npm -y
 npm install -g pm2
 npm install /home/pi/Web/Client
 npm install /home/pi/Web/Server
