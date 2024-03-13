@@ -20,8 +20,8 @@ apt-get install tmux -y
 
 echo -e "\nSetting up the Web interface..."
 apt-get install npm -y
-sudo systemctl -w net.ipv6.conf.all.disable_ipv6=1
-sudo systemctl -w net.ipv6.conf.default.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
 npm install /home/pi/Web/Client
 npm install /home/pi/Web/Server
 npm install -g pm2
