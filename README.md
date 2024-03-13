@@ -25,7 +25,7 @@ chmod +x /home/pi/Scripts/setup.sh
 ### [3] Run the setup script with sudo
 ``` bash
 cd Scripts
-sudo ./setup.sh
+sudo nohup ./setup.sh
 ```
 This will take a while to finish, so go grab a cup of coffee :) </br>
 The Pi will reboot after this and hopefull everything should be setup! </br>
