@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 # launcher.sh
 
 # Start a new tmux session in detached mode with the name 'aquaai' and run the AquaAI.py script using Python
