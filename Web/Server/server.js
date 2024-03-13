@@ -16,7 +16,7 @@ app.post('/wifi-settings', (req, res) => {
   const channelToUse = channel || '7';
 
   if (ssid && password) {
-    const command = `sudo bash /home/pi/Scripts/cngWifi.sh ${ssid} ${password} ${channelToUse}`;
+    const command = `sudo nohup bash /home/pi/Scripts/cngWifi.sh ${ssid} ${password} ${channelToUse}`;
     exec(command, (error, stdout, stderr) => {
       if (error) {
         console.error(`Error in WiFi settings script!!: ${error}`);
