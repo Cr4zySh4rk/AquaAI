@@ -1,139 +1,126 @@
-//NPK Setup
-#include <ModbusMaster.h>
-#include <AltSoftSerial.h>
-#define NITROGEN_ADDR   0x1E
-#define PHOSPHORUS_ADDR 0x1F
-#define POTASSIUM_ADDR  0x20
-#define MAX485_DE      6
-#define MAX485_RE_NEG  7
-// connect DI (data in) to PIN 9
-// connect R0 (data out) to PIN 8
-AltSoftSerial swSerial;
-ModbusMaster node;
+#include <ModbusMaster.h> // Include ModbusMaster library for communication with Modbus devices
+#include <AltSoftSerial.h> // Include AltSoftSerial library for serial communication
+#include <dht11.h> // Include dht11 library for interfacing with DHT11 sensor
 
-//NPK functions below
-// Put the MAX485 into transmit mode
-void preTransmission()
-{
-  digitalWrite(MAX485_RE_NEG, 1);
-  digitalWrite(MAX485_DE, 1);
-}
+#define NITROGEN_ADDR   0x1E // Define address of nitrogen sensor
+#define PHOSPHORUS_ADDR 0x1F // Define address of phosphorus sensor
+#define POTASSIUM_ADDR  0x20 // Define address of potassium sensor
+#define MAX485_DE       6    // Define pin for DE (Data Enable) of MAX485
+#define MAX485_RE_NEG   7    // Define pin for RE (Receiver Enable) of MAX485
 
-// Put the MAX485 into receive mode
-void postTransmission()
-{
-  digitalWrite(MAX485_RE_NEG, 0);
-  digitalWrite(MAX485_DE, 0);
-}
+AltSoftSerial swSerial; // Create AltSoftSerial object for serial communication
+ModbusMaster node; // Create ModbusMaster object for Modbus communication
+dht11 DHT11; // Create dht11 object for DHT11 sensor
 
-//DHT11 Temp-Humidity
-#include <dht11.h>
-#define DHT11PIN 5
-dht11 DHT11;
+#define DHT11PIN 5 // Define pin for DHT11 sensor
+const int soil_sensor = A1; // Define analog pin for soil moisture sensor
+const int relay = 4; // Define pin for relay
 
-//Soil moisture sensor_pin
-const int soil_sensor = A1;
+const long freq = 1000 * 60 * 1; // Define frequency to collect readings every 1 minute
 
-//Water pump relay
-const int relay = 4;
+float temp, humidity, soil_moist, N, P, K, water_ml = 0, target_moist; // Declare variables for storing sensor readings
+float percentage_N, percentage_P, percentage_K; // Declare variables for storing percentage values of N, P, and K
 
-const long freq = 1000 * 60 * 1; //collect the readings every 1 min, do not set freq lower than 1 min
-
-float temp, humidity, soil_moist, N, P, K, water_ml=0,target_moist;
 void setup() {
-  Serial.begin(9600);
-  // configure the MAX485 RE & DE control signals and enable receive mode
-  pinMode(MAX485_RE_NEG, OUTPUT);
-  pinMode(MAX485_DE, OUTPUT);
-  digitalWrite(MAX485_RE_NEG, 0);
-  digitalWrite(MAX485_DE, 0);
-
-  // Modbus communication runs at 9600 baud
-  swSerial.begin(9600);
-
-  // Modbus slave ID of NPK sensor is 1
-  node.begin(1, swSerial);
-
-  // Callbacks to allow us to set the RS485 Tx/Rx direction
-  node.preTransmission(preTransmission);
-  node.postTransmission(postTransmission);
+  Serial.begin(9600); // Initialize serial communication at 9600 baud rate
+  pinMode(MAX485_RE_NEG, OUTPUT); // Set MAX485 RE pin as output
+  pinMode(MAX485_DE, OUTPUT); // Set MAX485 DE pin as output
+  digitalWrite(MAX485_RE_NEG, 0); // Set RE pin low to receive data
+  digitalWrite(MAX485_DE, 0); // Set DE pin low for communication
   
-  //Water pump relay
-  pinMode(relay, OUTPUT);
+  swSerial.begin(9600); // Initialize AltSoftSerial at 9600 baud rate
+  node.begin(1, swSerial); // Initialize ModbusMaster with slave ID 1 and AltSoftSerial
+  node.preTransmission(preTransmission); // Set preTransmission function for Modbus communication
+  node.postTransmission(postTransmission); // Set postTransmission function for Modbus communication
+
+  pinMode(relay, OUTPUT); // Set relay pin as output
+}
+
+void preTransmission() {
+  digitalWrite(MAX485_RE_NEG, 1); // Set RE pin high for transmission
+  digitalWrite(MAX485_DE, 1); // Set DE pin high for transmission
+}
+
+void postTransmission() {
+  digitalWrite(MAX485_RE_NEG, 0); // Set RE pin low after transmission
+  digitalWrite(MAX485_DE, 0); // Set DE pin low after transmission
 }
 
 bool moisture_check(float current, float target) {
-  if (current < target)
-    return true;
-  return false;
+  return current < target; // Check if current moisture is less than target moisture
 }
 
 void start_pump() {
-  digitalWrite(relay,LOW); // relay ON
+  digitalWrite(relay, LOW); // Turn on relay to start the pump
 }
 
 void stop_pump() {
-  digitalWrite(relay,HIGH); //relay OFF
+  digitalWrite(relay, HIGH); // Turn off relay to stop the pump
 }
 
 void loop() {
   if (Serial.available() > 0) {
-    target_moist = Serial.readStringUntil('\n').toFloat();
+    target_moist = Serial.readStringUntil('\n').toFloat(); // Read target moisture value from serial input
   }
-  //Soil moisture maintence
+  
   int soil_analog;
-  soil_analog = analogRead(soil_sensor);
-  float current_moist = ( 100 - ( ( soil_analog/1023.00 ) * 100 ) ); //current soil moisture in percentage
-  soil_moist=current_moist;
-  bool dispense = moisture_check(current_moist, target_moist);
-  long pump_time = 30; // default pump rubns for 30s
-  if (dispense == true) {
-    // 100ml takes 8 mins to dispense or 12.5ml per min
-    // for our purposes we will dispense about 6.25ml
-    start_pump();
-    delay(pump_time * 1000);
-    water_ml = pump_time * 0.2083;
-    stop_pump();
+  soil_analog = analogRead(soil_sensor); // Read analog value from soil moisture sensor
+  float current_moist = (100 - ((soil_analog / 1023.00) * 100)); // Convert analog value to percentage moisture
+  soil_moist = current_moist; // Store current moisture value
+  
+  bool dispense = moisture_check(current_moist, target_moist); // Check if water dispensing is needed based on moisture levels
+  long pump_time = 30; // Default pump run time is 30 seconds
+  if (dispense) {
+    start_pump(); // Start the pump if moisture level is below target
+    delay(pump_time * 1000); // Wait for pump_time seconds
+    water_ml = pump_time * 0.2083; // Calculate amount of water dispensed in milliliters
+    stop_pump(); // Stop the pump after dispensing water
+  } else {
+    water_ml = 0; // Reset water dispensed if not dispensing
+    stop_pump(); // Stop the pump
   }
-  else {
-    water_ml = 0;
-    stop_pump();
-  }
-  // NPK sensor values
+  
   uint8_t result;
+  
+  // Read nitrogen level from sensor
+  result = node.readHoldingRegisters(NITROGEN_ADDR, 1);
+  if (result == node.ku8MBSuccess) {
+    N = node.getResponseBuffer(0x0); // Store nitrogen value in mg/kg
+    float max_N = 100; // Maximum level of Nitrogen in mg/kg
+    percentage_N = (N / max_N) * 100; // Calculate percentage of Nitrogen
+  }
+  // Read phosphorus level from sensor
+  result = node.readHoldingRegisters(PHOSPHORUS_ADDR, 1);
+  if (result == node.ku8MBSuccess) {
+    P = node.getResponseBuffer(0x0); // Store phosphorus value in mg/kg
+    float max_P = 50; // Maximum level of Phosphorus in mg/kg
+    percentage_P = (P / max_P) * 100; // Calculate percentage of Phosphorus
+  }
+  // Read potassium level from sensor
+  result = node.readHoldingRegisters(POTASSIUM_ADDR, 1);
+  if (result == node.ku8MBSuccess) {
+    K = node.getResponseBuffer(0x0); // Store potassium value in mg/kg
+    float max_K = 80; // Maximum level of Potassium in mg/kg
+    percentage_K = (K / max_K) * 100; // Calculate percentage of Potassium
+  }
 
-  /// NITROGEN
-result = node.readHoldingRegisters(NITROGEN_ADDR, 1);
-if (result == node.ku8MBSuccess)
-  N = node.getResponseBuffer(0x0); //values in mg/Kg (mg per Kg)
+  int chk = DHT11.read(DHT11PIN); // Read data from DHT11 sensor
+  humidity = ((float)DHT11.humidity); // Store humidity value
+  temp = ((float)DHT11.temperature); // Store temperature value
 
-// PHOSPHORUS
-result = node.readHoldingRegisters(PHOSPHORUS_ADDR, 1);
-if (result == node.ku8MBSuccess)
-  P = node.getResponseBuffer(0x0); //values in mg/Kg (mg per Kg)
-
-// POTASSIUM
-result = node.readHoldingRegisters(POTASSIUM_ADDR, 1);
-if (result == node.ku8MBSuccess)
-  K = node.getResponseBuffer(0x0); //values in mg/Kg (mg per Kg)
-
-
-  //DHT sensor (temp & humidity)
-  int chk = DHT11.read(DHT11PIN);
-  humidity = ((float)DHT11.humidity);
-  temp = ((float)DHT11.temperature);
-
-    Serial.print(temp);
-    Serial.print(",");
-    Serial.print(humidity);
-    Serial.print(",");
-    Serial.print(soil_moist);
-    Serial.print(",");
-    Serial.print(N);
-    Serial.print(",");
-    Serial.print(P);
-    Serial.print(",");
-    Serial.print(K);
-    Serial.print(",");
-    Serial.println(water_ml);
+  // Print sensor readings to serial monitor
+  Serial.print(temp);
+  Serial.print(",");
+  Serial.print(humidity);
+  Serial.print(",");
+  Serial.print(soil_moist);
+  Serial.print(",");
+  Serial.print(percentage_N);
+  Serial.print(",");
+  Serial.print(percentage_P);
+  Serial.print(",");
+  Serial.print(percentage_K);
+  Serial.print(",");
+  Serial.println(water_ml);
+  delay(1000); // Delay for 1 second
 }

@@ -1,0 +1,8 @@
+Name,N,P,K,SoilMin,SoilMax,TempMin,TempMax,HumidMin,HumidMax
+Pomegranate,8,8,8,50,80,15,32,40,60
+Tomato,5,10,10,60,80,15,29,40,70
+Wheat,10,10,10,50,70,15,24,40,70
+Brinjal,5,10,10,60,80,21,32,40,70
+Onion,10,20,10,50,70,15,24,40,70
+Cabbage,10,10,10,60,80,15,24,40,70
+Potato,10,20,20,70,80,15,21,40,70

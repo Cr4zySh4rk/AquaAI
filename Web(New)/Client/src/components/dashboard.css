@@ -1,0 +1,220 @@
+.wrapper-dash {
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+.nav-holder {
+    background: linear-gradient(to top,rgb(251, 194, 235) 0%, rgb(161, 140, 209) 100%);
+    width: 380px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    border-top-right-radius: 19px;
+    border-bottom-right-radius: 19px;
+}
+
+.fixed-content {
+    position: fixed;
+}
+
+.fixed-content h1 {
+    color: white;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 35px;
+}
+
+.fixed-content li a {
+    margin-bottom: 25px;
+    font-size: larger;
+    font-weight: 400;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dash-container {
+    width: 1250px;
+    padding: 1rem;
+}
+
+.dash-cover {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.head-space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.head-space-between h1 {
+    font-weight: 500;
+    font-size: 30px;
+    background: rgb(124, 100, 179);
+    background-clip: text;
+    color: transparent;
+}
+
+.head-space-between select {
+    appearance: none;
+    outline: 10px red;
+    border: 0;
+    box-shadow: none;
+    flex: 1;
+    padding: 0 1em;
+    color: #fff;
+    background: linear-gradient(to top, rgb(161, 140, 209) 0%, rgb(161, 140, 209) 100%);
+    cursor: pointer;
+}
+
+.select {
+    position: relative;
+    display: flex;
+    width: 20em;
+    height: 3em;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgb(161, 140, 209) 0%, rgb(161, 140, 209) 100%);
+    transition: .25s all ease;
+    pointer-events: none;
+    border-left: solid 1px white;
+    color: white;
+    font-size: 13px;
+}
+
+.select:hover::after {
+    color: white;
+}
+
+.metric-wrapper {
+    width: 1250px;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.sys-up {
+    color: #fff;
+    position: fixed;
+    bottom: 85px;
+    font-size: larger;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.metric-cont {
+    width: 400px;
+    height: 150px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.metric-cont h1 {
+    font-weight: 500;
+    font-size: x-large;
+    background: rgb(124, 100, 179);
+    background-clip: text;
+    color: transparent;
+}
+
+.recommendation-wrapper {
+    width: 1250px;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.reco-cont {
+    width: 1150px;
+    height: 420px;
+    overflow: scroll;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 12px;
+}
+
+.reco-cont h1 {
+    font-weight: 500;
+    font-size: x-large;
+    margin: 12px 0 0 12px;
+    background: rgb(124, 100, 179);
+    background-clip: text;
+    color: transparent;
+}
+
+.ideal-flex h2 {
+    font-weight: 500;
+    font-size: 20px;
+    margin: 12px 0 0 12px;
+    background: rgb(124, 100, 179);
+    background-clip: text;
+    color: transparent;
+    text-decoration: underline rgb(161, 140, 209);
+}
+
+.ideal-flex p {
+    font-weight: 500;
+    font-size: 17px;
+    margin: 12px 0 0 12px;
+    background: rgb(124, 100, 179);
+    background-clip: text;
+    color: transparent;
+}
+
+@media screen and (max-width: 1040px) {
+    .nav-holder {
+        display: none;
+    }
+    .fixed-content {
+        display: none;
+    }
+    .dash-container {
+        width: 100%;
+        padding: 1rem;
+    }
+    .head-space-between {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .metric-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .fixed-content h1{
+        display: none;
+    }
+    .fixed-content li a {
+        display: none;
+    }
+    .fixed-content h2 {
+        display: none;
+    }
+
+    .recommendation-wrapper {
+        width: 100%;
+    }
+}

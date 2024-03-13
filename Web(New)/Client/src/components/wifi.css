@@ -1,0 +1,151 @@
+.wifi-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+.nav-holder1 {
+    background: linear-gradient(to top,rgb(251, 194, 235) 0%, rgb(161, 140, 209) 100%);
+    background-attachment: fixed;
+    width: 380px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    border-top-right-radius: 19px;
+    border-bottom-right-radius: 19px;
+}
+
+.fixed-content {
+    position: fixed;
+}
+
+.fixed-content h1 {
+    color: white;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 35px;
+}
+
+.fixed-content li a {
+    margin-bottom: 25px;
+    font-size: larger;
+    font-weight: 400;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.wifi-cover {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wifi-container {
+    width: 1250px;
+    height: 100vh;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.wifi-box{
+    width: 450px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 150px;
+}
+
+.wifibox-flex {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-bottom: 35px;
+}
+
+.wifibox-flex h3 {
+    font-weight: 400;
+    font-size: 30px;
+    background: rgb(124, 100, 179);
+    background-clip: text;
+    color: transparent;
+}
+
+.wifibox-flex input {
+    width: 180px;
+    height: 35px;
+    border-radius: 14px;
+    border: solid 1px lightgray;
+    padding: 10px 18px;
+}
+
+.wifibox-flex input:focus {
+    border: solid 1px rgb(161, 140, 209);
+    outline: none;
+}
+
+.wifibox-flex select {
+    padding: 10px 18px;
+    background-color: rgb(161, 140, 209);
+    border: none;
+    border-radius: 14px;
+    color: white;
+}
+
+.wifibox-flex1 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-top: 25px;
+    margin-left: 30px;
+}
+
+.no-flex {
+    margin-top: 20px;
+    width: auto;
+    height: auto;
+}
+
+.move {
+    margin-right: 63px;
+}
+
+@media screen and (max-width: 1040px) {
+    .nav-holder1 {
+        display: none !important;
+    }
+    .fixed-content {
+        display: none;
+    }
+    .fixed-content li a {
+        display: none;
+    }
+    .fixed-content h1,
+    .fixed-content h2 {
+        display: none;
+    }
+    .wifi-wrapper {
+        width: 100%;
+        height: auto;
+        display: flex;
+    }
+    .wifi-cover {
+        width: 100%;
+        height: auto;
+    }
+    .wifi-container {
+        width: 100%;
+        height: auto;
+    }
+    .wifi-box {
+        margin-top: 0;
+    }
+}
