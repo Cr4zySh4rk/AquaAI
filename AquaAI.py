@@ -72,7 +72,7 @@ def serial_read():
         line = ser.readline().decode('utf-8').rstrip()  # Read a line from the serial port
         if line != '':
             # Append the data to a CSV file named "data.csv"
-            file = open("data.csv", "a")
+            file = open("/home/pi/data.csv", "a")
             file.write("\n" + line)
             file.close()
         time.sleep(5)  # Sleep for 5 seconds before reading the next line
