@@ -18,31 +18,11 @@ sudo cp /etc/proftpd/proftpd.conf /etc/proftpd/proftpd.conf.orig
 echo -e "\nInstalling TMUX..."
 apt-get install tmux -y
 
-echo -e "\nSetting up Apache server and Web interface..."
-apt-get install apache2 -y
-apt-get install npm -y
-apt-get install libapache2-mod-php -y
-apt-get install php8.2-fpm -y
-a2enconf php8.2-fpm
-a2enmod proxy_fcgi setenvif
-systemctl restart apache2
-
-echo -e "listen.owner = pi\nlisten.group = pi" >> /etc/php/8.2/fpm/php-fpm.conf
-mkdir /var/www/aquaai
-cp -R /home/pi/Web/* /var/www/aquaai
-apt-get install npm -y
-cd /var/www/aquaai
-npm install
-cd /home/pi/Scripts
-chown -R -f pi:pi /var/www/aquaai
-usermod -a -G pi www-data
-chmod +w /etc/sudoers
-echo -e "dietpi ALL=(ALL) NOPASSWD:ALL\nwww-data ALL=(ALL) NOPASSWD:ALL\n%dietpi ALL= (ALL:ALL) ALL" >> /etc/sudoers
-chmod -w /etc/sudoers
-cp /home/pi/Web/aquaai.conf /etc/apache2/sites-available/
-a2dissite 000-default.conf
-a2ensite aquaai.conf
-systemctl restart apache2
+echo -e "\nSetting up the Web interface..."
+apt-get install npm nginx-y
+npm install -g pm2
+npm install /home/pi/Web/Client
+npm install /home/pi/Web/Server
 
 echo -e "\nSetting up the AI image recognition..."
 apt-get install git pip -y
