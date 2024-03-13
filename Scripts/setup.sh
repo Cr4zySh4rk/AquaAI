@@ -53,6 +53,7 @@ sed -i 's|fi|fi\nsudo bash /home/pi/Scripts/launcher.sh|g' /etc/rc.local
 
 echo -e "\nMaking all scripts executable in Scripts..."
 chmod +x /home/pi/Scripts/*
+chmod 666 /home/pi/data.csv /home/pi/plants.csv
 
 echo -e "\nInstalling required packages..."
 apt install dhcpcd5 dnsmasq hostapd iptables -y
