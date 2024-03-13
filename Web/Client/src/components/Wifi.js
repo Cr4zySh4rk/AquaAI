@@ -30,7 +30,7 @@ const Wifi = () => {
     try {
       const resp = await axios.post('http://aquaai.local:3001/wifi-settings/reset');
       if(resp.data === "WiFiSet"){
-        alert("Wifi Reset Successful! Please Reboot")
+        alert("Wifi Reset Successful! Please Reboot");
       }
     } catch (error) {
       alert('Error resetting WiFi settings:', error);

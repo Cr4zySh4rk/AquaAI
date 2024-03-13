@@ -23,10 +23,12 @@ const SettingsSystem = () => {
     };
   
     const handleShutdown = () => {
+      alert("Shutting down...");
       executeCommand('shutdown');
     };
   
     const handleRestart = () => {
+      alert("Restarting...");
       executeCommand('restart');
     };
 

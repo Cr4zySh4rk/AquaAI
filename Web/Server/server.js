@@ -48,7 +48,6 @@ app.post('/shutdown', (req, res) => {
       console.error(`Error executing command: ${error}`);
       res.status(500).send('Error in shutdown!!');
     } else {
-      alert("Shutting down...");
       console.log(`Command output: ${stdout}`);
       res.status(200).send('Shutdown executed!!');
     }
@@ -73,7 +72,6 @@ app.post('/restart', (req, res) => {
       console.error(`Error in command: ${error}`);
       res.status(500).send('Error while restarting!!');
     } else {
-      alert("Rebooting...");
       console.log(`Command output: ${stdout}`);
       res.status(200).send('Restart executed!!');
     }
