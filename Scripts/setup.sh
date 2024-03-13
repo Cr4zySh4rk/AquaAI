@@ -22,8 +22,8 @@ echo -e "\nSetting up the Web interface..."
 apt-get install npm -y
 npm config set registry http://registry.npmjs.org/
 npm install --global yarn
-yarn install /home/pi/Web/Client
-yarn install /home/pi/Web/Server
+yarn add /home/pi/Web/Client
+yarn add /home/pi/Web/Server
 yarn global add pm2
 chown -R -f pi:pi /home/pi/Web
 usermod -a -G pi www-data
