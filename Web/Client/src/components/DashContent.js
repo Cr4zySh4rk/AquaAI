@@ -61,9 +61,20 @@ const DashContent = () => {
   useEffect(() => {
     if (data.length > 0) {
       const lastEntry = data[data.length - 1];
-      const last15Entries = data.slice(-15);
-      const total = last15Entries.reduce((acc, entry) => acc + parseFloat(entry.Water_Dispensed), 0);
-      setTotalWaterDispensed(total);
+      let totalWaterDispensed;
+      if (data.length <= 15) {
+        totalWaterDispensed = data.reduce((acc, entry) => {
+          const waterDispensed = parseFloat(entry.Water_Dispensed);
+          return isNaN(waterDispensed) ? acc : acc + waterDispensed;
+        }, 0);
+      } else {
+        totalWaterDispensed = data.slice(-15).reduce((acc, entry) => {
+          const waterDispensed = parseFloat(entry.Water_Dispensed);
+          return isNaN(waterDispensed) ? acc : acc + waterDispensed;
+        }, 0);
+      }
+      setTotalWaterDispensed(totalWaterDispensed);
+  
       setCurrentSoilMoisture(parseFloat(lastEntry.Soil_Moisture));
       setCurrentNPK({
         nitrogen: parseFloat(lastEntry.Nitrogen),
@@ -72,6 +83,19 @@ const DashContent = () => {
       });
       setCurrentTemperature(parseFloat(lastEntry.Temperature));
       setCurrentHumidity(parseFloat(lastEntry.Humidity));
+        data.forEach((entry, index) => {
+        if (
+          isNaN(parseFloat(entry.Water_Dispensed)) ||
+          isNaN(parseFloat(entry.Soil_Moisture)) ||
+          isNaN(parseFloat(entry.Nitrogen)) ||
+          isNaN(parseFloat(entry.Phosphorus)) ||
+          isNaN(parseFloat(entry.Potassium)) ||
+          isNaN(parseFloat(entry.Temperature)) ||
+          isNaN(parseFloat(entry.Humidity))
+        ) {
+          console.error(`Invalid data entry at index ${index}:`, entry);
+        }
+      });
     }
   }, [data]);
 
