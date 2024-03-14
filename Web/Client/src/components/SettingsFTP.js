@@ -15,7 +15,7 @@ const SettingsSystem = () => {
   const [uptime, setUptime] = useState("Loading...");
     const executeCommand = async (command) => {
       try {
-        const response = await axios.post(`http://aquaai.local:3001/${command}`);
+        const response = await axios.post(`http://192.168.4.1:3001/${command}`);
         console.log(response.data);
       } catch (error) {
         console.error(`Error executing command: ${error.message}`);
@@ -34,7 +34,7 @@ const SettingsSystem = () => {
 
     const fetchUptime = async () => {
       try {
-        const response = await axios.get('http://aquaai.local:3001/uptime');
+        const response = await axios.get('http://192.168.4.1:3001/uptime');
         const uptimestr = response.data;
         setUptime(uptimestr);
       } catch (error) {

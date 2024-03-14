@@ -27,7 +27,7 @@ const Navbar = () => {
 
   const fetchUptime = async () => {
     try {
-      const response = await axios.get('http://aquaai.local:3001/uptime');
+      const response = await axios.get('http://192.168.4.1:3001/uptime');
       const uptimestr = response.data;
       setUptime(uptimestr);
     } catch (error) {
