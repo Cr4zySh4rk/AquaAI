@@ -1,3 +1,22 @@
+/*
+In the provided code, the Arduino Uno is interfacing with a JXCT NPK sensor using the RS485 communication protocol. Here's a breakdown of the connections between the Arduino Uno and the RS485 module:
+
+1. *RS485 Module Connections:*
+   - *RS485 DI (Data In) Signal to Pin 9:* The Data In signal from the RS485 module is connected to digital pin 9 on the Arduino Uno. This pin is used to receive data from the RS485 module.
+   - *RS485 RO (Receive Out) Signal to Pin 8:* The Receive Out signal from the RS485 module is connected to digital pin 8 on the Arduino Uno. This pin is used for receiving data from the RS485 module.
+   - *RS485 RE (Receiver Enable) Signal to Pin 7:* The Receiver Enable signal from the RS485 module is connected to digital pin 7 on the Arduino Uno. This pin is used to enable the receiver mode of the RS485 module.
+   - *RS485 DE (Driver Enable) Signal to Pin 6:* The Driver Enable signal from the RS485 module is connected to digital pin 6 on the Arduino Uno. This pin is used to enable the driver mode of the RS485 module.
+   - *RS485 VCC to 5V:* The VCC (power) pin of the RS485 module is connected to the 5V output of the Arduino Uno.
+   - *RS485 GND to GND:* The Ground (GND) pin of the RS485 module is connected to the Ground (GND) pin of the Arduino Uno.
+
+2. *MAX485 Direction Control Pins:*
+   - *MAX485 DE (Driver Enable) Pin to Pin 6:* This pin is used to control the Driver Enable (DE) signal of the MAX485 chip. It is connected to digital pin 6 on the Arduino Uno.
+   - *MAX485 RE (Receiver Enable) Pin to Pin 7:* This pin is used to control the Receiver Enable (RE) signal of the MAX485 chip. It is connected to digital pin 7 on the Arduino Uno.
+
+These connections allow the Arduino Uno to communicate with the JXCT NPK sensor using the RS485 protocol.
+ The AltSoftSerial library is used for serial communication, and the ModbusMaster library is utilized for Modbus communication with the sensor.
+  The preTransmission and postTransmission functions are defined to control the direction of data transmission/reception on the RS485 bus.
+*/
 #include <ModbusMaster.h> // Include ModbusMaster library for communication with Modbus devices
 #include <AltSoftSerial.h> // Include AltSoftSerial library for serial communication
 #include <dht11.h> // Include dht11 library for interfacing with DHT11 sensor
@@ -15,7 +34,7 @@ dht11 DHT11; // Create dht11 object for DHT11 sensor
 #define DHT11PIN 5 // Define pin for DHT11 sensor
 const int soil_sensor = A1; // Define analog pin for soil moisture sensor
 const int water = 4; // Define pin for relay
-const int fert = 8;
+const int fert = 3;
 long pump_time = 30;
 const long freq = 1000 * 60 * 1; // Define frequency to collect readings every 1 minute
 
