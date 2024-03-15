@@ -14,11 +14,13 @@ dht11 DHT11; // Create dht11 object for DHT11 sensor
 
 #define DHT11PIN 5 // Define pin for DHT11 sensor
 const int soil_sensor = A1; // Define analog pin for soil moisture sensor
-const int relay = 4; // Define pin for relay
-
+const int water = 4; // Define pin for relay
+const int fert = 8;
+long pump_time = 30;
 const long freq = 1000 * 60 * 1; // Define frequency to collect readings every 1 minute
 
 float temp, humidity, soil_moist, N, P, K, water_ml = 0, target_moist; // Declare variables for storing sensor readings
+String serial;
 float percentage_N, percentage_P, percentage_K; // Declare variables for storing percentage values of N, P, and K
 
 void setup() {
@@ -33,7 +35,7 @@ void setup() {
   node.preTransmission(preTransmission); // Set preTransmission function for Modbus communication
   node.postTransmission(postTransmission); // Set postTransmission function for Modbus communication
 
-  pinMode(relay, OUTPUT); // Set relay pin as output
+  pinMode(water, OUTPUT); // Set relay pin as output
 }
 
 void preTransmission() {
@@ -50,17 +52,25 @@ bool moisture_check(float current, float target) {
   return current < target; // Check if current moisture is less than target moisture
 }
 
-void start_pump() {
-  digitalWrite(relay, LOW); // Turn on relay to start the pump
+void start_pump(int pump) {
+  digitalWrite(pump, LOW); // Turn on relay to start the pump
 }
 
-void stop_pump() {
-  digitalWrite(relay, HIGH); // Turn off relay to stop the pump
+void stop_pump(int pump) {
+  digitalWrite(pump, HIGH); // Turn off relay to stop the pump
 }
 
 void loop() {
   if (Serial.available() > 0) {
-    target_moist = Serial.readStringUntil('\n').toFloat(); // Read target moisture value from serial input
+    serial = Serial.readStringUntil('\n');
+    if (serial == "fert") {
+      start_pump(fert);
+      delay(5000);
+      stop_pump(fert);
+    }
+    else{
+      target_moist = Serial.readStringUntil('\n').toFloat(); // Read target moisture value from serial input
+    }
   }
   
   int soil_analog;
@@ -69,15 +79,15 @@ void loop() {
   soil_moist = current_moist; // Store current moisture value
   
   bool dispense = moisture_check(current_moist, target_moist); // Check if water dispensing is needed based on moisture levels
-  long pump_time = 30; // Default pump run time is 30 seconds
+   // Default pump run time is 30 seconds
   if (dispense == true) {
-    start_pump(); // Start the pump if moisture level is below target
+    start_pump(water); // Start the pump if moisture level is below target
     delay(pump_time * 1000); // Wait for pump_time seconds
     water_ml = pump_time * 0.2083; // Calculate amount of water dispensed in milliliters
-    stop_pump(); // Stop the pump after dispensing water
+    stop_pump(water); // Stop the pump after dispensing water
   } else {
     water_ml = 0; // Reset water dispensed if not dispensing
-    stop_pump(); // Stop the pump
+    stop_pump(water); // Stop the pump
   }
   
   uint8_t result;
