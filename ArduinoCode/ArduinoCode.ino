@@ -65,7 +65,7 @@ void loop() {
     serial = Serial.readStringUntil('\n');
     if (serial == "fert") {
       start_pump(fert);
-      delay(5000);
+      delay(pump_time * 1000);
       stop_pump(fert);
     }
     else{
