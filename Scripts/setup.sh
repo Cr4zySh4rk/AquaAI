@@ -21,8 +21,6 @@ echo -e "\nInstalling TMUX..."
 apt-get install tmux -y
 
 echo -e "\nSetting up the Web interface..."
-sysctl -w net.ipv6.conf.all.disable_ipv6=1
-sysctl -w net.ipv6.conf.default.disable_ipv6=1
 apt-get install nodejs -y --no-install-recommends
 apt-get install npm -y --no-install-recommends
 cd /home/pi/Web/Client
