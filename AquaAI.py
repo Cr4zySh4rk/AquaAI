@@ -61,6 +61,9 @@ def cam():
             elif name_string == "mature":
                 target = "60"
             print(target)  # Print the target value
+            file = open("/home/pi/ai.csv", "a")
+            file.write("\n" + name_string + ", " + target)
+            file.close()
             ser.write(target.encode())  # Send the target value to Arduino via serial communication
             ser.reset_input_buffer()
         except Exception as e:
