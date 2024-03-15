@@ -8,21 +8,21 @@ fi
 echo -e "\nThis script will install all the necessary packages and edit some system settings to setup a Wireless Access Point(AP) or Hotspot."
 echo -e "\nThe raspberry pi will reboot after this!"
 echo -e "\nUpdating package list..."
-sudo touch /var/lib/man-db/auto-update
+touch /var/lib/man-db/auto-update
 apt-get update
 apt-get upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 
 echo -e "\nSetting up FTP service..."
 apt-get install proftpd -y
 service proftpd start
-sudo cp /etc/proftpd/proftpd.conf /etc/proftpd/proftpd.conf.orig
+cp /etc/proftpd/proftpd.conf /etc/proftpd/proftpd.conf.orig
 
 echo -e "\nInstalling TMUX..."
 apt-get install tmux -y
 
 echo -e "\nSetting up the Web interface..."
-sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
-sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
+sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sysctl -w net.ipv6.conf.default.disable_ipv6=1
 apt-get install nodejs -y --no-install-recommends
 apt-get install npm -y --no-install-recommends
 cd /home/pi/Web/Client
@@ -84,7 +84,7 @@ rfkill unblock wifi
 echo -e "\nConfiguring the Wifi hotspot..."
 echo -e "country_code=IN\ninterface=wlan0\nssid=AquaAI\nhw_mode=g\nchannel=7\nmacaddr_acl=0\nauth_algs=1\nignore_broadcast_ssid=0\nwpa=2\nwpa_passphrase=aquaai1234\nwpa_key_mgmt=WPA-PSK\nwpa_pairwise=TKIP\nrsn_pairwise=CCMP" > /etc/hostapd/hostapd.conf
 sed -i 's|#DAEMON_CONF=""|DAEMON_CONF="/etc/hostapd/hostapd.conf"|g' /etc/default/hostapd
-sudo cp /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.orig
+cp /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.orig
 
 systemctl disable dhcpcd.service
 systemctl stop dhcpcd.service
