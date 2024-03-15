@@ -61,15 +61,15 @@ def cam():
             elif name_string == "mature":
                 target = "60"
             print(target)  # Print the target value
-            file = open("/home/pi/ai.csv", "a")
-            file.write("\n" + name_string + ", " + target)
-            file.close()
             ser.write(target.encode())  # Send the target value to Arduino via serial communication
             ser.reset_input_buffer()
         except Exception as e:
             target = "0"
             print("Error:", e)  # Print error message if object detection fails
             ser.reset_input_buffer()
+        file = open("/home/pi/ai.csv", "a")
+        file.write("\n" + name_string + ", " + target)
+        file.close()
         time.sleep(10)  # Sleep for 10 seconds before capturing the next image
 
 # Define a function to read data from the serial port
