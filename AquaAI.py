@@ -29,7 +29,7 @@ def cam():
             # Check if we've reached the 60th frame
             if frame_count == 60:
                 # Save the 60th frame as an image
-                cv2.imwrite('/home/pi/testimage.jpg', frame)
+                cv2.imwrite('/home/pi/image.jpg', frame)
                 break
 
             k = cv2.waitKey(1)
