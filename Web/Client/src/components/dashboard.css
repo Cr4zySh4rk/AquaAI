@@ -180,6 +180,12 @@
     color: transparent;
 }
 
+.space-holder {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
 @media screen and (max-width: 1040px) {
     .nav-holder {
         display: none;
@@ -196,7 +202,11 @@
         flex-direction: column;
         gap: 2rem;
     }
-
+    .space-holder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
     .metric-wrapper {
         width: 100%;
         display: flex;

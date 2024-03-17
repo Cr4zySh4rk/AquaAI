@@ -7,6 +7,7 @@ import { FaWifi } from "react-icons/fa";
 import { FaGlobe } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { LuBrainCircuit } from "react-icons/lu";
 
 const DashContent = () => {
   const [data, setData] = useState([]);
@@ -21,6 +22,7 @@ const DashContent = () => {
   const [nitrogenOp, setNitrogenOp] = useState(null);
   const [potassiumOp, setPotassiumOp] = useState(null);
   const [phosphorusOp, setPhosphorusOp] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("Automatic");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -116,6 +118,24 @@ const DashContent = () => {
     fetchCropData(selectedCrop);
   };
 
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
+  }
+
+  const sendSignalToBackend = () => {
+    if (selectedOption === "Manual") {
+      axios.post('http://192.168.4.1:3001/executeCommand', {
+        command: 'python3 /home/pi/Scripts/fert.py'
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.error('Error:', error);
+      });
+    }
+  }
+
   useEffect(() => {
     compareNitrogenLevels(currentNPK, selectedCropData);
     comparePhosphorusLevels(currentNPK, selectedCropData);
@@ -159,6 +179,7 @@ const DashContent = () => {
           <ul>
             <li><Link to='/'><TbGridDots />Dashboard</Link></li>
             <li><Link to='/analytics'><TbDeviceAnalytics />Analytics</Link></li>
+            <li><Link to='/ai-recommendations'><LuBrainCircuit />AI Recommendations</Link></li>
             <li><Link to='/system-settings'><MdOutlineAppSettingsAlt />System Settings</Link></li>
             <li><Link to='/wifi-settings'><FaWifi />Wifi Settings</Link></li>
           </ul>
@@ -169,19 +190,30 @@ const DashContent = () => {
         <div className='dash-container'>
           <div className='head-space-between'>
             <h1>Dashboard</h1>
-            <div className='select'>
-              <select name="Crop" id="Crop" onChange={handleCropChange} value={selectedCrop}>
-                <option value="Select Crop">Select Crop</option>
-                <option value="Pomegranate">Pomegranate</option>
-                <option value="Tomato">Tomato</option>
-                <option value="Wheat">Wheat</option>
-                <option value="Brinjal">Brinjal</option>
-                <object value="Onion">Onion</object>
-                <option value="Cabbage">Cabbage</option>
-                <option value="Potato">Potato</option>
-              </select>
-            </div>
+            <div className='space-holder'>
+              <div className='select'>
+                <select name="Crop" id="Crop" onChange={handleCropChange} value={selectedCrop}>
+                  <option value="Select Crop">Select Crop</option>
+                  <option value="Pomegranate">Pomegranate</option>
+                  <option value="Tomato">Tomato</option>
+                  <option value="Wheat">Wheat</option>
+                  <option value="Brinjal">Brinjal</option>
+                  <object value="Onion">Onion</object>
+                  <option value="Cabbage">Cabbage</option>
+                  <option value="Potato">Potato</option>
+                </select>
+              </div>
+              <h1>Fertilizer:</h1>
+              <div className='select'>
+                <select name="Dispense" id="Dispense" value={selectedOption} onChange={handleSelectChange}>
+                  <option value="Automatic">Automatic</option>
+                  <option value="Manual">Manual</option>
+                </select>
+              </div>
+              <button className='btn-sys' onClick={sendSignalToBackend} disabled={selectedOption === "Automatic"} style={{ backgroundColor: selectedOption === "Automatic" ? "gray" : "" }}>Dispense</button>
           </div>
+            </div>
+            
           <div className='metric-wrapper'>
             <div className='metric-cont'>
               <h1>Water Dispensed Today: {totalWaterDispensed}mL</h1>

