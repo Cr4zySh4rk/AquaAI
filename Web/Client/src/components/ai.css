@@ -54,3 +54,31 @@
     flex-direction: column;
     
 }
+
+@media screen and (max-width: 1040px) {
+    .nav-holder {
+        display: none !important;
+    }
+
+    .fixed-content {
+        display: none;
+    }
+
+    .fixed-content li a {
+        display: none;
+    }
+
+    .fixed-content h1,
+    .fixed-content h2 {
+        display: none;
+    }
+
+    .ai-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .wrapper-ai {
+        padding: 14px;
+    }
+}

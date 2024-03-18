@@ -45,13 +45,13 @@
 }
 
 .sys-container {
-    width: 300px;
-    height: 350px;
+    width: 1250px;
+    height: 500px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 1.3rem;
+    justify-content: center;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    border-radius: 14px;
 }
 
 .icon-sys {
@@ -70,6 +70,39 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
+}
+
+.left-sys {
+    width: 625px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: solid 1px lightgray;
+}
+
+.left-h {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.left-sys h1 {
+    font-weight: 500;
+    font-size: 20px;
+    background: rgb(124, 100, 179);
+    background-clip: text;
+    color: transparent;
+}
+
+.right-sys {
+    width: 625px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 .btn-sys {

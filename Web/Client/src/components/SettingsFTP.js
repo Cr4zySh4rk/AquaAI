@@ -14,6 +14,9 @@ import { LuBrainCircuit } from "react-icons/lu";
 
 const SettingsSystem = () => {
   const [uptime, setUptime] = useState("Loading...");
+  const [hostname, setHostname] = useState('');
+  const [osInfo, setOsInfo] = useState('');
+  const [ipAddress, setIpAddress] = useState('');
     const executeCommand = async (command) => {
       try {
         const response = await axios.post(`http://192.168.4.1:3001/${command}`);
@@ -54,6 +57,26 @@ const SettingsSystem = () => {
       };
     }, []);
 
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const hostnameResponse = await axios.post('http://192.168.4.1:3001/sys-info', { command: 'hostname' });
+          const osInfoResponse = await axios.post('http://192.168.4.1:3001/sys-info', { command: "grep -E '^(VERSION|NAME)=' /etc/os-release" });
+          const ipAddressResponse = await axios.post('http://192.168.4.1:3001/sys-info', { command: "hostname -I | awk '{print $1}'" });
+  
+          setHostname(hostnameResponse.data.output);
+          setOsInfo(osInfoResponse.data.output);
+          setIpAddress(ipAddressResponse.data.output);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+
+      fetchData();
+      const interval = setInterval(fetchData, 10000);
+      return () => clearInterval(interval);
+    }, []);
+
   return (
     <div className='sys-wrapper'>
       <div className='nav-holder1'>
@@ -71,14 +94,24 @@ const SettingsSystem = () => {
       </div>
       <div className='sys-cover'>
         <div className='sys-container'>
-          <div className='down-flex'>
-            <RiShutDownLine size={40} className='icon-sys'/>
-            <button className='btn-sys' onClick={handleShutdown}>Shutdown</button>
+          <div className='left-sys'>
+            <div className='left-h'>
+              <h1>Hostname: {hostname}</h1>
+              <h1>OS Name & Version: {osInfo}</h1>
+              <h1>IP Address: {ipAddress}</h1>
+            </div>
           </div>
-          <div className='reboot-flex'>
-            <MdOutlineRestartAlt size={42} className='icon-sys'/>
-            <button className='btn-sys' onClick={handleRestart}>Restart</button>
+          <div className='right-sys'>
+            <div className='down-flex'>
+              <RiShutDownLine size={40} className='icon-sys'/>
+              <button className='btn-sys' onClick={handleShutdown}>Shutdown</button>
+            </div>
+            <div className='reboot-flex'>
+              <MdOutlineRestartAlt size={42} className='icon-sys'/>
+              <button className='btn-sys' onClick={handleRestart}>Restart</button>
+            </div>
           </div>
+          
         </div>
       </div>
     </div>
