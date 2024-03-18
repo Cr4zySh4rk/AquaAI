@@ -120,7 +120,29 @@ const DashContent = () => {
 
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
+    if (selectedOption === 'Automatic') {
+      startContinuousExecution();
+    }
   }
+
+  const handleDispenseClick = () => {
+    if (selectedOption === 'Manual') {
+      sendSignalToBackend();
+    }
+  };
+
+  const startContinuousExecution = () => {
+    axios.post('http://192.168.4.1:3001/startcontinuousexecution', {
+      currentNPK,
+      cropName: selectedCrop
+    })
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error('Error starting continuous execution:', error);
+    });
+  };
 
   const sendSignalToBackend = () => {
     if (selectedOption === "Manual") {
@@ -210,7 +232,7 @@ const DashContent = () => {
                   <option value="Manual">Manual</option>
                 </select>
               </div>
-              <button className='btn-sys' onClick={sendSignalToBackend} disabled={selectedOption === "Automatic"} style={{ backgroundColor: selectedOption === "Automatic" ? "gray" : "" }}>Dispense</button>
+              <button className='btn-sys' onClick={handleDispenseClick} disabled={selectedOption === "Automatic"} style={{ backgroundColor: selectedOption === "Automatic" ? "gray" : "" }}>Dispense</button>
           </div>
             </div>
             
