@@ -40,7 +40,7 @@ def cam():
 
             # Load custom YOLO object detection model
             model = torch.hub.load('/home/pi/yolov5', 'custom', path='/home/pi/best.pt', source="local")
-            img = "/home/pi/testimage.jpg"  # Path to the saved image
+            img = "/home/pi/image.jpg"  # Path to the saved image
             result = model(img)  # Perform object detection on the image
 
             try:
