@@ -60,9 +60,9 @@ const SettingsSystem = () => {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const hostnameResponse = await axios.post('http://localhost:3001/sys-info', { command: 'hostname' });
-          const osInfoResponse = await axios.post('http://localhost:3001/sys-info', { command: "grep -E '^(VERSION|NAME)=' /etc/os-release | sed 's/^[^=]*=//; s/\"//g'" });
-          const ipAddressResponse = await axios.post('http://localhost:3001/sys-info', { command: "hostname -I | awk '{print $1}'" });
+          const hostnameResponse = await axios.post('http://192.168.4.1:3001/sys-info', { command: 'hostname' });
+          const osInfoResponse = await axios.post('http://192.168.4.1:3001/sys-info', { command: "grep -E '^(VERSION|NAME)=' /etc/os-release | sed 's/^[^=]*=//; s/\"//g'" });
+          const ipAddressResponse = await axios.post('http://192.168.4.1:3001/sys-info', { command: "hostname -I | awk '{print $1}'" });
   
           setHostname(hostnameResponse.data.output);
           setOsInfo(osInfoResponse.data.output);
