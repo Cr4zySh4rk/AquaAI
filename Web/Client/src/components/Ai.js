@@ -97,13 +97,9 @@ const Ai = () => {
             {imageSrc && <img src={imageSrc} alt='ImageSrc' />}
           </div>
           <div className='growth-data'>
-            <h2>Growth Data:</h2>
-            {growthData.map((data, index) => (
-              <div key={index}>
-                <h2>Growth Stage: {data.growthStage}</h2>
-                <h2>Target Moisture: {data.targetMoist}</h2>
-              </div>
-            ))}
+            <h2>Growth Data:</h2> 
+            <h2>Growth Stage: {growthData.growthStage}</h2>
+            <h2>Target Moisture: {growthData.targetMoist}</h2>
         </div>
         </div>
       </div>
