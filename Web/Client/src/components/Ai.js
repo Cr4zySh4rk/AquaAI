@@ -44,6 +44,7 @@ const Ai = () => {
           throw new Error('Network response was not ok');
         }
         const jsonData = await response.json();
+        console.log(jsonData)
         setGrowthData(jsonData);
       } catch (error) {
         console.error('Error fetching growth data:', error);
@@ -75,6 +76,7 @@ const Ai = () => {
 
     return () => clearInterval(interval);
   }, []);
+  console.log(growthData)
 
   return (
     <div className='wrapper-ai'>
@@ -98,8 +100,8 @@ const Ai = () => {
           </div>
           <div className='growth-data'>
             <h2>Growth Data:</h2> 
-            <h2>Growth Stage: {growthData.growthStage}</h2>
-            <h2>Target Moisture: {growthData.targetMoist}</h2>
+            <h2>Growth Stage: {growthData[0].growthStage}</h2>
+            <h2>Target Moisture: {growthData[0].targetMoist}</h2>
         </div>
         </div>
       </div>

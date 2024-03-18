@@ -146,7 +146,7 @@ app.post('/executeCommand', (req, res) => {
 
 app.get('/growth-data', (req, res) => {
   const jsonData = [];
-  const csvAI = "home/pi/ai.csv"
+  const csvAI = "/home/pi/ai.csv"
   fs.createReadStream(csvAI)
     .pipe(csv())
     .on('data', (row) => {
@@ -208,8 +208,8 @@ app.post('/startcontinuousexecution', (req, res) => {
       }
     })
     .on('end', () => {
-      const NotIdeal = currentNPK.N < idealNPK.N || currentNPK.P < idealNPK.P || currentNPK.K < idealNPK.K;
-      if (NotIdeal) {
+      const notIdeal = currentNPK.N < idealNPK.N || currentNPK.P < idealNPK.P || currentNPK.K < idealNPK.K;
+      if (notIdeal) {
         const intervalId = setInterval(() => {
           exec('python3 /home/pi/Scripts/fert.py', (error, stdout, stderr) => {
             if (error) {
@@ -217,10 +217,7 @@ app.post('/startcontinuousexecution', (req, res) => {
             } else {
               console.log(`Command output: ${stdout}`);
               // Check if ideal NPK values are reached
-              if (idealValuesReached(currentNPK)) {
-                clearInterval(intervalId); // Stop continuous execution
-                console.log("Ideal NPK values reached. Stopping continuous execution.");
-              }
+              idealValuesReached(currentNPK, cropName, idealNPK, intervalId);
             }
           });
         }, 60000); // Executes automation for every minute
@@ -236,36 +233,29 @@ app.post('/startcontinuousexecution', (req, res) => {
     });
 });
 
-const idealValuesReached = (currentNPK) => {
+const idealValuesReached = (currentNPK, cropName, idealNPK, intervalId) => {
   const csvFilePath = '/home/pi/plants.csv';
-  const idealNPK = {};
 
   fs.createReadStream(csvFilePath)
     .pipe(csv())
     .on('data', (row) => {
-      if (row.Name === currentNPK.cropName) {
-        idealNPK.N = parseFloat(row.N);
-        idealNPK.P = parseFloat(row.P);
-        idealNPK.K = parseFloat(row.K);
-      }
-    })
-    .on('end', () => {
-      // Comparing the current N, P, K values with ideal values
-      if (
-        currentNPK.nitrogen >= idealNPK.N &&
-        currentNPK.phosphorus >= idealNPK.P &&
-        currentNPK.potassium >= idealNPK.K
-      ) {
-        return true; // ideal values reached
-      } else {
-        return false; // ideal values not reached
+      if (row.Name === cropName) {
+        // Comparing the current N, P, K values with ideal values
+        if (
+          currentNPK.N >= idealNPK.N &&
+          currentNPK.P >= idealNPK.P &&
+          currentNPK.K >= idealNPK.K
+        ) {
+          clearInterval(intervalId); // Stop continuous execution
+          console.log("Ideal NPK values reached. Stopping continuous execution.");
+        }
       }
     })
     .on('error', (error) => {
       console.error('Error while reading/parsing CSV file:', error);
-      return false;
     });
 };
+
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));

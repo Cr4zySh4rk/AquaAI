@@ -119,12 +119,12 @@ const DashContent = () => {
   };
 
   const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
-    if (selectedOption === 'Automatic') {
+    const selectedValue = event.target.value;
+    setSelectedOption(selectedValue);
+    if (selectedValue === 'Automatic') {
       startContinuousExecution();
     }
-  }
-
+  };
   const handleDispenseClick = () => {
     if (selectedOption === 'Manual') {
       sendSignalToBackend();
@@ -243,17 +243,20 @@ const DashContent = () => {
             </div>
             <div className='metric-cont'>
               <h1>Current N, P, K Values:{selectedCropData && ( 
-                <span style={{color: selectedCropData && currentNPK.nitrogen < selectedCropData.N ? "red" : (currentNPK.nitrogen >= selectedCropData.N ? "green" : "")}}>
-                  {selectedCropData ? currentNPK.nitrogen : 'N/A'}
-                </span>, 
-                <span style={{color: selectedCropData && currentNPK.phosphorus < selectedCropData.P ? "red" : (currentNPK.phosphorus >= selectedCropData.P ? "green" : "")}}>
-                  {selectedCropData ? currentNPK.phosphorus : 'N/A'}
-                </span>, 
-                <span style={{color: selectedCropData && currentNPK.potassium < selectedCropData.K ? "red" : (currentNPK.potassium >= selectedCropData.K ? "green" : "")}}>
-                  {selectedCropData ? currentNPK.potassium : 'N/A'}
-                </span> )}
+                <span>
+                  <span style={{color: currentNPK.nitrogen < selectedCropData.N ? "red" : (currentNPK.nitrogen >= selectedCropData.N ? "green" : "")}}>
+                    {selectedCropData ? currentNPK.nitrogen : 'N/A'}
+                  </span>{", "}
+                  <span style={{color: currentNPK.phosphorus < selectedCropData.P ? "red" : (currentNPK.phosphorus >= selectedCropData.P ? "green" : "")}}>
+                    {selectedCropData ? currentNPK.phosphorus : 'N/A'}
+                  </span>{", "}
+                  <span style={{color: currentNPK.potassium < selectedCropData.K ? "red" : (currentNPK.potassium >= selectedCropData.K ? "green" : "")}}>
+                    {selectedCropData ? currentNPK.potassium : 'N/A'}
+                  </span>
+                </span>
+              )}
               </h1>
-            </div>
+          </div>
           </div>
           <div className='metric-wrapper'>
             <div className='metric-cont'>
