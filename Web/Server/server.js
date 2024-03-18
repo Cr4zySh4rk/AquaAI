@@ -165,7 +165,7 @@ app.get('/growth-data', (req, res) => {
 });
 
 app.get('/image', (req, res) => {
-  const imagePath = '/home/akshay/Downloads/model.jpeg'; // Path to image change here
+  const imagePath = '/home/pi/image.jpg'; // Path to image change here
   fs.readFile(imagePath, (err, data) => {
     if (err) {
       console.error('Error reading image:', err);
