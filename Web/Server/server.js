@@ -185,7 +185,6 @@ app.post('/sys-info', (req, res) => {
       console.error(`Error in command: ${error}`);
       res.status(500).json({ error: 'Error in command' });
     } else {
-      console.log(`Command output: ${stdout}`);
       res.status(200).json({ output: stdout });
     }
   });

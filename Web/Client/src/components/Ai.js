@@ -99,9 +99,15 @@ const Ai = () => {
             {imageSrc && <img src={imageSrc} alt='ImageSrc' />}
           </div>
           <div className='growth-data'>
-            <h2>Growth Data:</h2> 
-            <h2>Growth Stage: {growthData[0].growthStage}</h2>
-            <h2>Target Moisture: {growthData[0].targetMoist}</h2>
+            <h2>Growth Data:</h2>
+            {growthData.length > 0 ? (
+              <div>
+                <h2>Growth Stage: {growthData[0].growthStage}</h2>
+                <h2>Target Moisture: {growthData[0].targetMoist}</h2>
+              </div>
+            ) : (
+              <h2>No growth data available.</h2>
+            )}
         </div>
         </div>
       </div>
