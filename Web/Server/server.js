@@ -144,6 +144,38 @@ app.post('/executeCommand', (req, res) => {
   });
 });
 
+app.get('/growth-data', (req, res) => {
+  const jsonData = [];
+  const csvAI = "home/pi/ai.csv"
+  fs.createReadStream(csvAI)
+    .pipe(csv())
+    .on('data', (row) => {
+      jsonData.push({
+        growthStage: row.growthStage,
+        targetMoist: row.targetMoist
+      });
+    })
+    .on('end', () => {
+      res.status(200).json(jsonData);
+    })
+    .on('error', (error) => {
+      console.error('Error while reading/parsing CSV file:', error);
+      res.status(500).send('Error while reading/parsing CSV file!!');
+    });
+});
+
+app.get('/image', (req, res) => {
+  const imagePath = '/home/akshay/Downloads/model.jpeg'; // Path to image change here
+  fs.readFile(imagePath, (err, data) => {
+    if (err) {
+      console.error('Error reading image:', err);
+      res.status(500).send('Error reading image');
+      return;
+    }
+    res.writeHead(200, {'Content-Type': 'image/jpeg'});
+    res.end(data);
+  });
+});
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));

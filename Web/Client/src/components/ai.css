@@ -1,0 +1,56 @@
+.ai-cover {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper-ai {
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+
+.ai-container {
+    width: 1250px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    border-radius: 14px;
+}
+
+.left-ai img {
+    width: 500px;
+    height: 350px;
+    object-fit: cover;
+}
+
+.ai-container h2 {
+    font-weight: 500;
+    font-size: 20px;
+    background: rgb(124, 100, 179);
+    background-clip: text;
+    color: transparent;
+}
+
+.left-ai {
+    width: 625px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: solid 1px lightgray;
+}
+
+.growth-data {
+    width: 625px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+}
