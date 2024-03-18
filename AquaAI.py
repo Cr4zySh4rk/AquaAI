@@ -15,83 +15,96 @@ target = "0"  # Initialize target variable to store the detected object's catego
 
 # Define a function to capture images from the camera
 def cam():
-    while True:    
-        cam = cv2.VideoCapture(0)  # Initialize the camera capture object
-
-        frame_count = 0  # Initialize frame count
-        while True:
-            ret, frame = cam.read()  # Read frame from the camera
-            frame_count += 1  # Increment frame count
-
-            # Display the live video feed
-            # cv2.imshow('Live Video', frame)
-
-            # Check if we've reached the 60th frame
-            if frame_count == 60:
-                # Save the 60th frame as an image
-                cv2.imwrite('/home/pi/image.jpg', frame)
-                break
-
-            k = cv2.waitKey(1)
-            if k != -1:
-                break
-
-        # Release the camera and close all OpenCV windows
-        cam.release()
-        cv2.destroyAllWindows()
-
-        # Load custom YOLO object detection model
-        model = torch.hub.load('/home/pi/yolov5', 'custom', path='/home/pi/best.pt', source="local")
-        img = "/home/pi/testimage.jpg"  # Path to the saved image
-        result = model(img)  # Perform object detection on the image
-
+    while True:
         try:
-            res = result.pandas().xyxy[0]  # Get the detection results
-            name_string = res['name'][0].lower()  # Extract the category name of the detected object
-            print(name_string)  # Print the detected object category
-            # Map object category to target value
-            if name_string == "bud":
-                target = "40"
-            elif name_string == "flower":
-                target = "50"
-            elif name_string == "early-fruit":
-                target = "60"
-            elif name_string == "mid-growth":
-                target = "70"
-            elif name_string == "mature":
-                target = "60"
-            print(target)  # Print the target value
-            ser.write(target.encode())  # Send the target value to Arduino via serial communication
-            ser.reset_input_buffer()
+            cam = cv2.VideoCapture(0)  # Initialize the camera capture object
+
+            frame_count = 0  # Initialize frame count
+            while True:
+                ret, frame = cam.read()  # Read frame from the camera
+                frame_count += 1  # Increment frame count
+
+                # Check if we've reached the 60th frame
+                if frame_count == 60:
+                    # Save the 60th frame as an image
+                    cv2.imwrite('/home/pi/image.jpg', frame)
+                    break
+
+                k = cv2.waitKey(1)
+                if k != -1:
+                    break
+
+            # Release the camera and close all OpenCV windows
+            cam.release()
+            cv2.destroyAllWindows()
+
+            # Load custom YOLO object detection model
+            model = torch.hub.load('/home/pi/yolov5', 'custom', path='/home/pi/best.pt', source="local")
+            img = "/home/pi/testimage.jpg"  # Path to the saved image
+            result = model(img)  # Perform object detection on the image
+
+            try:
+                res = result.pandas().xyxy[0]  # Get the detection results
+                name_string = res['name'][0].lower()  # Extract the category name of the detected object
+                print(name_string)  # Print the detected object category
+                # Map object category to target value
+                if name_string == "bud":
+                    target = "40"
+                elif name_string == "flower":
+                    target = "50"
+                elif name_string == "early-fruit":
+                    target = "60"
+                elif name_string == "mid-growth":
+                    target = "70"
+                elif name_string == "mature":
+                    target = "60"
+                print(target)  # Print the target value
+                ser.write(target.encode())  # Send the target value to Arduino via serial communication
+                ser.reset_input_buffer()
+            except Exception as e:
+                target = "0"
+                print("Error during object detection:", e)  # Print error message if object detection fails
+                ser.reset_input_buffer()
+                
+            # Append data to a CSV file
+            with open("/home/pi/ai.csv", "a") as file:
+                file.write("\n" + name_string + ", " + target)
+            time.sleep(10)  # Sleep for 10 seconds before capturing the next image
         except Exception as e:
-            target = "0"
-            print("Error:", e)  # Print error message if object detection fails
-            ser.reset_input_buffer()
-        file = open("/home/pi/ai.csv", "a")
-        file.write("\n" + name_string + ", " + target)
-        file.close()
-        time.sleep(10)  # Sleep for 10 seconds before capturing the next image
+            print("Error in camera function:", e)
 
 # Define a function to read data from the serial port
 def serial_read():
     while True:
-        line = ser.readline().decode('utf-8').rstrip()  # Read a line from the serial port
-        if line != '':
-            # Append the data to a CSV file named "data.csv"
-            file = open("/home/pi/data.csv", "a")
-            file.write("\n" + line)
-            file.close()
-            ser.reset_input_buffer()
-        time.sleep(5)  # Sleep for 5 seconds before reading the next line
+        try:
+            line = ser.readline().decode('utf-8').rstrip()  # Read a line from the serial port
+            if line != '':
+                # Append the data to a CSV file named "data.csv"
+                with open("/home/pi/data.csv", "a") as file:
+                    file.write("\n" + line)
+                ser.reset_input_buffer()
+            time.sleep(5)  # Sleep for 5 seconds before reading the next line
+        except Exception as e:
+            print("Error in serial communication function:", e)
 
-# Create threads for camera and serial communication functions
-cam_thread = threading.Thread(target=cam)
-serial_thread = threading.Thread(target=serial_read)
+try:
+    # Create threads for camera and serial communication functions
+    cam_thread = threading.Thread(target=cam)
+    serial_thread = threading.Thread(target=serial_read)
 
-# Start the threads
-cam_thread.start()
-serial_thread.start()
+    # Start the threads
+    cam_thread.start()
+    serial_thread.start()
 
-# Wait for the threads to finish execution
-cam_thread.join()
-serial_thread.join()
+    # Wait for the threads to finish execution
+    cam_thread.join()
+    serial_thread.join()
+except KeyboardInterrupt:
+    # Cleanup code in case of keyboard interrupt
+    print("Keyboard interrupt detected. Exiting...")
+    ser.close()
+    sys.exit(0)
+except Exception as e:
+    print("Unexpected error occurred:", e)
+    ser.close()
+    sys.exit(1)
