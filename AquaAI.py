@@ -63,6 +63,7 @@ def cam():
                 ser.reset_input_buffer()
             except Exception as e:
                 target = "0"
+                name_string == "error"
                 print("Error during object detection:", e)  # Print error message if object detection fails
                 ser.reset_input_buffer()
                 
