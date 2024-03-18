@@ -12,7 +12,7 @@ ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
 ser.reset_input_buffer()  # Reset input buffer of serial port
 
 target = "0"  # Initialize target variable to store the detected object's category
-
+name_string = ""
 # Define a function to capture images from the camera
 def cam():
     while True:
@@ -63,7 +63,7 @@ def cam():
                 ser.reset_input_buffer()
             except Exception as e:
                 target = "0"
-                name_string == "error"
+                name_string = "error"
                 print("Error during object detection:", e)  # Print error message if object detection fails
                 ser.reset_input_buffer()
                 
