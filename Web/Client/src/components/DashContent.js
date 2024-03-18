@@ -191,8 +191,6 @@ const DashContent = () => {
       setPotassiumOp(null);
     }
   };
-
-
   return (
     <div className='wrapper-dash'>
       <div className='nav-holder'>
