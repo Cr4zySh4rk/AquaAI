@@ -242,20 +242,26 @@ const DashContent = () => {
               <h1>Current Soil Moisture: {currentSoilMoisture}%</h1>
             </div>
             <div className='metric-cont'>
-              <h1>Current N, P, K Values: {selectedCrop === "Select Crop" ? ({currentNPK.nitrogen}, {currentNPK.phosphorus}, {currentNPK.potassium}) : {selectedCropData && ( 
+              <h1>Current N, P, K Values: {selectedCrop === "Select Crop" ? 
+              `${currentNPK.nitrogen}, ${currentNPK.phosphorus}, ${currentNPK.potassium}` 
+              : 
+              (selectedCropData && 
                 <span>
                   <span style={{color: currentNPK.nitrogen < selectedCropData.N ? "red" : (currentNPK.nitrogen >= selectedCropData.N ? "green" : "")}}>
                     {selectedCropData ? currentNPK.nitrogen : 'N/A'}
-                  </span>{", "}
+                  </span>
+                  {", "}
                   <span style={{color: currentNPK.phosphorus < selectedCropData.P ? "red" : (currentNPK.phosphorus >= selectedCropData.P ? "green" : "")}}>
                     {selectedCropData ? currentNPK.phosphorus : 'N/A'}
-                  </span>{", "}
+                  </span>
+                  {", "}
                   <span style={{color: currentNPK.potassium < selectedCropData.K ? "red" : (currentNPK.potassium >= selectedCropData.K ? "green" : "")}}>
                     {selectedCropData ? currentNPK.potassium : 'N/A'}
                   </span>
                 </span>
-              )} }
-              </h1>
+              )
+            }
+            </h1>
           </div>
           </div>
           <div className='metric-wrapper'>
