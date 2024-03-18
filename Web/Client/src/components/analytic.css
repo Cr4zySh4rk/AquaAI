@@ -67,12 +67,57 @@
     justify-content: center;
 }
 
-.analytic-cont h1 {
+.hero-crumb h1 {
     font-weight: 500;
     font-size: 30px;
     background: rgb(124, 100, 179);
     background-clip: text;
     color: transparent;
+}
+
+.hero-crumb {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.select {
+    position: relative;
+    display: flex;
+    width: 20em;
+    height: 3em;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.hero-crumb select {
+    appearance: none;
+    outline: 10px red;
+    border: 0;
+    box-shadow: none;
+    flex: 1;
+    padding: 0 1em;
+    color: #fff;
+    background: linear-gradient(to top, rgb(161, 140, 209) 0%, rgb(161, 140, 209) 100%);
+    cursor: pointer;
+}
+
+.select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgb(161, 140, 209) 0%, rgb(161, 140, 209) 100%);
+    transition: .25s all ease;
+    pointer-events: none;
+    border-left: solid 1px white;
+    color: white;
+    font-size: 13px;
+}
+
+.select:hover::after {
+    color: white;
 }
 
 @media screen and (max-width: 1040px) {
@@ -100,5 +145,11 @@
     .chart-container {
         width: 100%;
         margin-top: 20px;
+    }
+
+    .hero-crumb {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
     }
 }
