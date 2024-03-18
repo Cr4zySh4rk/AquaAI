@@ -26,6 +26,7 @@
     width: 500px;
     height: 350px;
     object-fit: cover;
+    border-radius: 14px;
 }
 
 .ai-container h2 {
@@ -52,7 +53,6 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    
 }
 
 @media screen and (max-width: 1040px) {
@@ -77,8 +77,20 @@
         width: 100%;
         display: flex;
         flex-direction: column;
+        padding: 14px;
     }
     .wrapper-ai {
         padding: 14px;
+    }
+
+    .left-ai {
+        width: 100%;
+    }
+
+    .left-ai img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        border-radius: 14px;
     }
 }
