@@ -144,5 +144,44 @@
         width: 100%;
         height: auto;
         margin-top: 25%;
+        padding: 14px;
     }
+
+    .sys-cover {
+        width: 100%;
+        height: auto;
+    }
+
+    .sys-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 14px;
+        gap: 2rem;
+    }
+
+    .right-sys {
+        width: 100%;
+        height: auto;
+    }
+
+    .left-sys {
+        width: 100%;
+        height: auto;
+        margin-top: 0;
+        border-right: none;
+        
+    }
+
+    .left-h {
+        width: 70%;
+        padding-bottom: 14px;
+        border-bottom: solid 1px lightgray;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+    }
+
 }

@@ -108,7 +108,7 @@ const Ai = () => {
             ) : (
               <h2>No growth data available.</h2>
             )}
-        </div>
+          </div>
         </div>
       </div>
     </div>

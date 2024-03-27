@@ -81,9 +81,14 @@
     }
     .wrapper-ai {
         padding: 14px;
+        width: 100%;
     }
 
     .left-ai {
+        width: 100%;
+    }
+
+    .ai-cover {
         width: 100%;
     }
 
@@ -92,5 +97,9 @@
         height: 350px;
         object-fit: cover;
         border-radius: 14px;
+    }
+
+    .growth-data {
+        width: 100%;
     }
 }
