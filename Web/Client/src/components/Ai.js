@@ -103,7 +103,7 @@ const Ai = () => {
             {growthData.length > 0 ? (
               <div>
                 <h2>Growth Stage: {growthData[growthData.length - 1].growthStage}</h2>
-                <h2>Target Moisture: {growthData[growthData.length - 1].targetMoist}</h2>
+                <h2>Target Moisture: {growthData[growthData.length - 1].targetMoist}%</h2>
               </div>
             ) : (
               <h2>No growth data available.</h2>
