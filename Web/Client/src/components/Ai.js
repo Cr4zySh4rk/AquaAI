@@ -99,7 +99,7 @@ const Ai = () => {
             {imageSrc && <img src={imageSrc} alt='ImageSrc' />}
           </div>
           <div className='growth-data'>
-            <h2>Growth Data:</h2>
+            <h2 className='grow-head'>Growth Data</h2>
             {growthData.length > 0 ? (
               <div>
                 <h2>Growth Stage: {growthData[growthData.length - 1].growthStage}</h2>
